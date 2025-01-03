@@ -1,0 +1,5 @@
+{% if profile.profile_image %}
+    <img src="{{ profile.profile_image.url }}" alt="Profile Image" width="150">
+{% else %}
+    <img src="{% static 'profile_images/default.jpg' %}" alt="Default Profile Image" width="150">
+{% endif %}

@@ -1,0 +1,14 @@
+<div class="container mt-5">
+    <h1>{{ request.user.username }}'in Yorumları</h1>
+    <ul class="list-group">
+        {% for comment in comments %}
+            <li class="list-group-item">
+                <p><strong>Film/Dizi:</strong> {{ comment.movie.title }}</p>
+                <p>{{ comment.text }}</p>
+                <p><small>{{ comment.created_at|date:"d M Y H:i" }}</small></p>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Henüz yorum yapmadınız.</li>
+        {% endfor %}
+    </ul>
+</div>

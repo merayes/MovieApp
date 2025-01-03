@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'movies/styles.css' %}">
+    <title>Popular Movies</title>
+</head>
+<body>
+    <h1>Popular Movies</h1>
+    <div class="movies">
+        {% if movies and movies.results %}
+    {% for movie in movies.results %}
+        <div class="movie">
+            <h3>{{ movie.title }}</h3>
+            <p>{{ movie.overview }}</p>
+            <a href="{% url 'movie_detail' movie.id %}">More Details</a>
+        </div>
+    {% empty %}
+        <p>No popular movies found.</p>
+    {% endfor %}
+{% else %}
+    <p>Failed to load movies.</p>
+{% endif %}
+
+    </div>
+</body>
+</html>

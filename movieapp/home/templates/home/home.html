@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <link rel="stylesheet" href="{% static 'home/styles.css' %}">
+    <link rel="icon" href="{% static 'home/popcorn.png' %}" type="image/x-icon">
+
+<style>
+  /* Root Variables */
+  :root {
+    --primary-color: #1f1f2e;
+    --secondary-color: #282845;
+    --accent-color: #ff3366;
+    --text-color: #ffffff;
+    --hover-bg: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Global Reset */
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Navbar Styling */
+  .navbar {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .container-fluid {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-brand {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .brand-accent {
+    color: #f43f5e;
+    transition: color 0.3s ease;
+  }
+
+  .navbar-toggler {
+    display: none;
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: #ffffff;
+  }
+
+  .navbar-nav {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    color: #e5e7eb;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #f43f5e;
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: #ffffff;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
+  }
+
+  .nav-link.active {
+    color: #ffffff;
+  }
+
+  /* Layout Styles */
+  .main-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .main-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* News Section Styles */
+  .news-section {
+    width: 300px;
+    background: #1f1f2e;
+    padding: 1rem;
+    border-radius: 8px;
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .news-section h2 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f43f5e;
+  }
+
+  .news-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    transition: transform 0.2s;
+  }
+
+  .news-item:hover {
+    transform: translateY(-2px);
+  }
+
+  .news-item h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .news-item h3 a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .news-item h3 a:hover {
+    color: #f43f5e;
+  }
+
+  .news-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+  }
+
+  .news-item p {
+    font-size: 0.9rem;
+    color: #e5e7eb;
+    margin: 0.5rem 0;
+  }
+
+  .news-item small {
+    color: #9ca3af;
+    font-size: 0.8rem;
+  }
+
+  /* Mobile Responsive Styles */
+  @media (max-width: 768px) {
+    .navbar-toggler {
+      display: block;
+    }
+
+    .navbar-collapse {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-collapse.show {
+      display: block;
+    }
+
+    .navbar-nav {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .nav-link::after {
+      bottom: 0;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .main-container {
+      flex-direction: column;
+    }
+
+    .news-section {
+      width: 100%;
+      position: static;
+    }
+  }
+
+  /* Navbar Toggle Icon */
+  .navbar-toggler-icon {
+    width: 1.5em;
+    height: 1.5em;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .navbar-toggler-icon::before,
+  .navbar-toggler-icon::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #ffffff;
+    transition: transform 0.3s ease;
+  }
+
+  .navbar-toggler-icon::before {
+    top: 0;
+    transform: translateY(-50%);
+  }
+
+  .navbar-toggler-icon::after {
+    bottom: 0;
+    transform: translateY(50%);
+  }
+
+  .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+    transform: rotate(45deg);
+  }
+
+  .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+    transform: rotate(-45deg);
+  }
+</style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        Film<span class="brand-accent">Dizi</span>Forum
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/profiles/">Profilim</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/movies/watchlist/">İzleme Listesi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/movies/genres/">Kategoriler</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/movies/yorumlar/">Yorumlarım</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'sayfa_hakkinda' %}">Sayfa Hakkında</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/login/">Cıkış Yap</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-container">
+    <div class="main-content">
+      <h1>ERAY'ın film sayfasına hoşgeldiniz!!!</h1>
+
+      <form method="get" action="{% url 'home' %}" class="search-form">
+          <input type="text" name="q" placeholder="Dizi-Film ara!!!" value="{{ query|default:'' }}" class="search-input">
+          <button type="submit" class="search-button">Arama</button>
+      </form>
+
+      {% if searching and movies %}
+          <h2>Search Results for "{{ query }}"</h2>
+      {% elif searching %}
+          <p class="no-results">No movies found for "{{ query }}".</p>
+      {% else %}
+          <h2>Popular Movies</h2>
+      {% endif %}
+
+      <div class="movies">
+          {% for movie in movies.results %}
+              <div class="movie">
+                  {% if movie.poster_path %}
+                      <img src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}" alt="{{ movie.title }}">
+                  {% else %}
+                      <img src="{% static 'home/no-image.png' %}" alt="No image available">
+                  {% endif %}
+                  <div class="movie-info">
+                      <h3>{{ movie.title }}</h3>
+                      <p>{{ movie.overview|truncatewords:20 }}</p>
+                      <a href="{% url 'movie_detail' movie.id %}" class="movie-link">Yorum Yap</a>
+                  </div>
+              </div>
+          {% endfor %}
+      </div>
+    </div>
+
+    <div class="news-section">
+      <h2>Film Haberleri</h2>
+      {% for news in film_news|slice:":5" %}
+          <div class="news-item">
+              <h3><a href="{{ news.url }}" target="_blank">{{ news.title }}</a></h3>
+              {% if news.urlToImage %}
+                  <img src="{{ news.urlToImage }}" alt="{{ news.title }}">
+              {% endif %}
+              <p>{{ news.description|truncatewords:15 }}</p>
+              <small>{{ news.source.name }} - {{ news.publishedAt|date:"d M Y" }}</small>
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

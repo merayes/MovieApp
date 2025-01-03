@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            Film<span class="brand-accent">Dizi</span>Forum
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/profiles/">Profilim</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/watchlist/">İzleme Listesi</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/genres/">Kategoriler</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/yorumlar/">Yorumlarım</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'sayfa_hakkinda' %}">Sayfa Hakkında</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    
+
+    <div class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                
+                <h1>{{ profile.user.username }}</h1>
+            </div>
+            
+            <div class="profile-info">
+                <div class="info-item">
+                    <div class="info-label">E-posta</div>
+                    <div class="info-value">{{ profile.user.email }}</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Hakkında</div>
+                    <div class="info-value">{{ profile.bio|default:"Henüz bir biyografi eklenmedi." }}</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Oluşturulma Tarihi</div>
+                    <div class="info-value">{{ profile.created_at|date:"d M Y" }}</div>
+                </div>
+            </div>
+            
+            <div class="profile-actions">
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    Profili Düzenle
+                </a>
+                <a href="/" class="btn btn-secondary">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    Ana Sayfa
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

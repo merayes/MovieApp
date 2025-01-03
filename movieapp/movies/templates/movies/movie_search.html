@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'movies/styles2.css' %}">
+    <title>Movie Search</title>
+</head>
+<body>
+    <h1>Search for Movies</h1>
+    <form method="get" action="{% url 'movie_search' %}">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search movies...">
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="movies">
+        {% if movies and movies.results %}
+    <div class="movies">
+        {% for movie in movies.results %}
+            <div class="movie">
+                <h3>{{ movie.title }}</h3>
+                <p>{{ movie.overview }}</p>
+                <a href="{% url 'movie_detail' movie.id %}">More Details</a>
+            </div>
+        {% empty %}
+            <p>No movies found.</p>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No results to display.</p>
+{% endif %}
+    </div>
+</body>
+</html>

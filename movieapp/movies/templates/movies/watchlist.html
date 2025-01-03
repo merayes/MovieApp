@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'movies/navbar.css' %}">
+    <title>İzleme Listem</title>
+    <style>
+        :root {
+            --primary-color: #1f1f2e;
+            --secondary-color: #282845;
+            --accent-color: #ff3366;
+            --text-color: #ffffff;
+            --danger-color: #dc3545;
+            --danger-hover: #c82333;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            background-color: #121212;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--primary-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--text-color);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .watchlist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .watchlist-item {
+            background: var(--secondary-color);
+            margin-bottom: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .watchlist-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .movie-title {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .remove-button {
+            background-color: var(--danger-color);
+            color: var(--text-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .remove-button:hover {
+            background-color: var(--danger-hover);
+            transform: translateY(-1px);
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            background: var(--secondary-color);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .watchlist-item {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        Film<span class="brand-accent">Dizi</span>Forum
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/profiles/">Profilim</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/movies/watchlist/">İzleme Listesi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/movies/genres/">Kategoriler</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/movies/yorumlar/">Yorumlarım</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'sayfa_hakkinda' %}">Sayfa Hakkında</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<body>
+    <div class="container">
+        <h1>İzleme Listem</h1>
+        {% if watchlist %}
+            <ul class="watchlist">
+                {% for item in watchlist %}
+                    <li class="watchlist-item">
+                        <span class="movie-title">{{ item.movie_title }}</span>
+                        <a href="{% url 'remove_from_watchlist' item.movie_id %}" class="remove-button">Kaldır</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-message">İzleme listeniz boş.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

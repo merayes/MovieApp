@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }}</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'movies/movie_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'movies/navbar.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            Film<span class="brand-accent">Dizi</span>Forum
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/profiles/">Profilim</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/watchlist/">İzleme Listesi</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/genres/">Kategoriler</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/yorumlar/">Yorumlarım</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'sayfa_hakkinda' %}">Sayfa Hakkında</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    
+
+
+    {% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">{{ movie.title }}</h1>
+    <p class="text-center">{{ movie.overview }}</p>
+
+    {% if trailer %}
+    <div class="text-center my-4">
+        <h3>Fragmanı İzle</h3>
+        <iframe width="560" height="315" src="{{ trailer }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    {% else %}
+    <p class="text-center text-muted">Bu film için fragman bulunamadı.</p>
+    {% endif %}
+
+    <div class="text-center my-4">
+        <form method="get" action="{% url 'add_to_watchlist' movie.id %}">
+            <input type="hidden" name="movie_title" value="{{ movie.title }}">
+            <button type="submit" class="btn btn-primary">İzleme Listesine Ekle</button>
+        </form>
+    </div>
+
+    <hr>
+    <h2>Yorumlar</h2>
+    <div>
+        {% for comment in comments %}
+            <div class="comment-box">
+                <p><strong>{{ comment.user.username }}</strong> 
+                   <span class="text-muted">({{ comment.created_at|date:"F j, Y, g:i a" }})</span>
+                </p>
+                <p>{{ comment.text }}</p>
+
+                {% if user.is_authenticated %}
+                    <button class="like-button" data-comment-id="{{ comment.id }}" data-csrf="{{ csrf_token }}">
+                        {% if user in comment.likes.all %}
+                            Unlike
+                        {% else %}
+                            Like
+                        {% endif %}
+                        <span class="like-count">{{ comment.like_count }}</span>
+                    </button>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'reply_comment' comment.id %}" class="mt-3">
+                        {% csrf_token %}
+                        <textarea name="reply_text" class="form-control" placeholder="Write a reply..." rows="2"></textarea>
+                        <button type="submit" class="btn btn-primary btn-sm mt-2">Yanıtla</button>
+                    </form>
+                {% endif %}
+
+                {% for reply in comment.replies.all %}
+                    <div class="reply-box mt-2">
+                        <p><strong>{{ reply.user.username }}</strong> 
+                           <span class="text-muted">({{ reply.created_at|date:"F j, Y, g:i a" }})</span>
+                        </p>
+                        <p>{{ reply.text }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% empty %}
+            <p>Henüz yorum yok! İlk yorumu siz yapın!!</p>
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+        <hr>
+        <h3>Yorum Ekle</h3>
+        <form method="post" class="comment-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Yorumu Paylaş</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}" class="login-link">Log in</a> to add a comment.</p>
+    {% endif %}
+</div>
+
+{% block extra_js %}
+<script src="{% static 'js/likes.js' %}"></script>
+{% endblock %}
+{% endblock %}
+
+</body>
+</html>

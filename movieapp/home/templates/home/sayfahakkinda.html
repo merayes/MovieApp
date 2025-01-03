@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <title></title>
+</head>
+<body>
+    
+
+
+<style>
+    .about-section {
+        background: linear-gradient(to bottom, #1a1a2e, #16213e);
+        color: #ffffff;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        border-radius: 12px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .about-section h2 {
+        color: #FF9933;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        border-bottom: 3px solid #FF9933;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+    }
+    
+    .about-section p {
+        color: #ffffff;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        text-align: justify;
+        padding: 0 1rem;
+        letter-spacing: 0.3px;
+    }
+    
+    .about-section p + p {
+        margin-top: 1.5rem;
+    }
+    
+    .about-section:hover {
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+        box-shadow: 0 6px 40px rgba(255, 153, 51, 0.15);
+    }
+    
+    @media (max-width: 768px) {
+        .about-section {
+            padding: 2rem 1rem;
+            margin: 1rem;
+        }
+    
+        .about-section h2 {
+            font-size: 2rem;
+        }
+    
+        .about-section p {
+            font-size: 1rem;
+            padding: 0;
+        }
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .about-section {
+        animation: fadeIn 0.8s ease-out;
+    }
+    </style>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        Film<span class="brand-accent">Dizi</span>Forum
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/profiles/">Profilim</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/movies/watchlist/">İzleme Listesi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/movies/genres/">Kategoriler</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/movies/yorumlar/">Yorumlarım</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'sayfa_hakkinda' %}">Sayfa Hakkında</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    
+    <div class="about-section">
+        <h2>Sayfa Hakkında</h2>
+        <p>
+            Hoş geldiniz! Film ve dizi tutkunları için hazırladığımız bu özel platform, sinema ve televizyon dünyasının büyüleyici atmosferine adım atmanızı sağlıyor. Burada en sevdiğiniz yapımları keşfedebilir, izlediğiniz filmler ve diziler hakkında yorum yapabilir, diğer kullanıcıların düşüncelerini inceleyerek yeni öneriler alabilirsiniz.
+        </p>
+        <p>
+            Amacımız, sinema ve dizi dünyasına dair tutkularınızı paylaşabileceğiniz, yeni yapımları keşfedebileceğiniz ve kaliteli tartışmalara katılabileceğiniz bir topluluk oluşturmak. En popüler filmlerden az bilinen bağımsız yapımlara, güncel dizilerden klasiklere kadar geniş bir içerik yelpazesi sunuyoruz.
+        </p>
+        <p>
+            Ayrıca her bir film ve diziye kullanıcılarımız tarafından verilen puanlarla kendi topluluk sıralamalarımızı oluşturuyor, en çok sevilen yapımları öne çıkarıyoruz. Bu sayede bir sonraki izleme listenizi oluşturmak çok daha kolay hale geliyor.
+        </p>
+        <p>
+            Katılımın tamamen ücretsiz olduğu platformumuzda, profil oluşturabilir, beğendiğiniz içerikleri favorilerinize ekleyebilir ve tartışmalara aktif bir şekilde katılabilirsiniz. Siz de bu büyüyen topluluğumuzun bir parçası olun ve sinema dünyasının derinliklerine birlikte dalalım.
+        </p>
+        <p>
+            Haydi, keşfetmeye başlayın ve en sevdiğiniz hikayeleri bizimle paylaşın! 🎬✨
+        </p>
+    </div>
+
+</body>
+</html>

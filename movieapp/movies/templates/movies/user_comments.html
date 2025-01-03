@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ request.user.username }}'in Yorumları</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'movies/user_comments.css' %}">
+    <link rel="stylesheet" href="{% static 'movies/navbar.css' %}">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            Film<span class="brand-accent">Dizi</span>Forum
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/profiles/">Profilim</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/watchlist/">İzleme Listesi</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/genres/">Kategoriler</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/yorumlar/">Yorumlarım</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'sayfa_hakkinda' %}">Sayfa Hakkında</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav> 
+    
+    {% load movie_filters %} <!-- Yeni filtreyi yükleyin -->
+
+<div class="container mt-5">
+    <h1 class="text-center">{{ request.user.username }}'in Yorumları</h1>
+    <ul class="list-group">
+        {% for comment in comments %}
+            <li class="list-group-item">
+                <strong>Film/Dizi:</strong> 
+                {% with movie_titles|get_item:comment.movie_id as movie_title %}
+                    {{ movie_title|default:"Bilinmeyen Film" }}
+                {% endwith %}
+                <br>
+                <strong>Yorum:</strong> {{ comment.text }} <br>
+                <small>{{ comment.created_at|date:"d M Y H:i" }}</small>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Henüz yorum yapmadınız.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>
+

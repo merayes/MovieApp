@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'movies/navbar.css' %}">
+    <title>Movies by Genre</title>
+    <style>
+        :root {
+            --primary-color: #1f1f2e;
+            --secondary-color: #282845;
+            --accent-color: #ff3366;
+            --text-color: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            background-color: #121212;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .genre-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--primary-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .genre-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            background: var(--secondary-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .genre-button:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .genre-button.active {
+            background: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(255, 51, 102, 0.3);
+        }
+
+        .genre-section {
+            margin-bottom: 3rem;
+            opacity: 1;
+            transition: all 0.5s ease;
+            background: var(--primary-color);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .genre-section.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        .genre-section h2 {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .movie-card {
+            background: var(--secondary-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .movie-title {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .movie-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-color);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .movie-link:hover {
+            background: #ff4d7d;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .genre-filters {
+                padding: 1rem;
+            }
+
+            .genre-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            Film<span class="brand-accent">Dizi</span>Forum
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/profiles/">Profilim</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/watchlist/">İzleme Listesi</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/genres/">Kategoriler</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/movies/yorumlar/">Yorumlarım</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'sayfa_hakkinda' %}">Sayfa Hakkında</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <div class="container">
+        <div class="genre-filters" id="genreFilters">
+            <button class="genre-button active" data-genre="all">All Genres</button>
+            {% for genre in genre_movies.keys %}
+                <button class="genre-button" data-genre="{{ genre|lower }}">{{ genre }}</button>
+            {% endfor %}
+        </div>
+
+        {% for genre, movies in genre_movies.items %}
+        <div class="genre-section" data-genre="{{ genre|lower }}">
+            <h2>{{ genre }}</h2>
+            <div class="movies-grid">
+                {% for movie in movies %}
+                    <div class="movie-card">
+                        <h3 class="movie-title">{{ movie.title }}</h3>
+                        <a href="{% url 'movie_detail' movie.id %}" class="movie-link">Yorum Yap</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterButtons = document.querySelectorAll('.genre-button');
+            const genreSections = document.querySelectorAll('.genre-section');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const selectedGenre = button.dataset.genre;
+
+                    genreSections.forEach(section => {
+                        if (selectedGenre === 'all') {
+                            section.classList.remove('hidden');
+                        } else {
+                            if (section.dataset.genre === selectedGenre) {
+                                section.classList.remove('hidden');
+                            } else {
+                                section.classList.add('hidden');
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

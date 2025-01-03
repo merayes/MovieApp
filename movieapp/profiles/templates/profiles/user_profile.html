@@ -1,0 +1,6 @@
+<h1>{{ profile.user.username }}'in Profili</h1>
+<div>
+    <img src="{{ profile.profile_image.url }}" alt="{{ profile.user.username }} profil resmi" style="width: 150px; height: 150px;">
+    <p><strong>Hakkında:</strong> {{ profile.bio }}</p>
+    <p><strong>Oluşturulma Tarihi:</strong> {{ profile.created_at }}</p>
+</div>

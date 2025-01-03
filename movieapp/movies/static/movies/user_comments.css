@@ -1,0 +1,110 @@
+:root {
+    --primary: #FF3366;
+    --secondary: #FF9933;
+    --background: #1a1a2e;
+    --card-bg: #16213e;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+  }
+  
+  body {
+    background: var(--background);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(255, 51, 102, 0.1) 0%, transparent 20%),
+      radial-gradient(circle at 90% 80%, rgba(255, 153, 51, 0.1) 0%, transparent 20%);
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 3.5rem;
+    margin: 2rem 0;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(255, 51, 102, 0.3));
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .comments {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .comment-card {
+    background: var(--card-bg);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    padding: 2rem;
+    border: 2px solid transparent;
+    transition: all 0.4s ease;
+    position: relative;
+  }
+  
+  .comment-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--primary);
+    box-shadow: 0 0 30px rgba(255, 51, 102, 0.2);
+  }
+  
+  .comment-card h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text);
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .comment-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: 1rem;
+  }
+  
+  .comment-card small {
+    display: block;
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  
+  .no-comments {
+    text-align: center;
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin: 2rem 0;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  @media (max-width: 768px) {
+    .comments {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+      padding: 1rem;
+    }
+  
+    h1 {
+      font-size: 2.5rem;
+    }
+  }
+  
